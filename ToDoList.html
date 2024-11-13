@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>To Do list App</title>
+</head>
+<style>
+    *{
+        margin: 0;
+        padding: 0;
+        font-family: 'Poppins', sans-serif;
+        box-sizing: border-box;
+    }
+    .container{
+        width: 100%;
+        min-height: 100vh;
+        background: linear-gradient(135deg, #329ce2, #054625);
+        padding: 10px;
+    }
+    .todo-app{
+        width: 100%;
+        max-width: 450px;
+        background-color: #fff;
+        margin: 100px auto 20px;
+        padding: 40px 30px 70px;
+        border-radius: 10px;
+    }
+    .todo-app h2{
+        color: #002765;
+        display: flex;
+        align-items: center;
+        margin-bottom: 20px;
+    }
+    .todo-app h2 img{
+        width: 70px;
+        margin-left: 20px;
+    }
+    .row{
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        background-color: #eee;
+        border-radius: 40px;
+        padding: 10px;
+        margin-bottom: 25px;
+    }
+    input{
+        flex: 1;
+        border: none;
+        outline: none;
+        background: transparent;
+        padding: 10px;
+    }
+    button{
+        border: none;
+        outline: none;
+        padding: 10px 50px ;
+        background-color: #ff4945;
+        color: #fff;
+        font-size: 16px;
+        cursor: pointer;
+        border-radius: 40px;
+    }
+    ul li{
+        list-style: none;
+        font-size: 17px;
+        padding: 15px 8px 12px 50px ;
+        user-select: none;
+        cursor: pointer;
+        position: relative;
+    }
+    ul li::before{
+        content: ' ';
+        position: absolute;
+        height: 28px;
+        width: 28px;
+        border-radius: 50%;
+        background-image: url(https://static-00.iconduck.com/assets.00/circle-small-icon-512x512-rsodrhxr.png);
+        background-size: cover;
+        background-position: center;
+        top: 12px;
+        left: 8px;
+    }
+    ul li.checked{
+        color: #555;
+        text-decoration: line-through;
+    }
+    ul li.checked::before{
+        background-image: url(https://img.lovepik.com/element/40142/4723.png_300.png);
+    }
+    ul li span{
+        position: absolute;
+        right: 0;
+        top: 5px;
+        width: 40px;
+        height: 40px;
+        font-size: 22px;
+        color: #555;
+        line-height: 40px;
+        text-align: center;
+        border-radius: 50%;
+    }
+    ul li span:hover{
+        background: #edeef0;       
+    }
+</style>
+<body>
+    <div class="container">
+        <div class="todo-app">
+            <h2>To-Do List <img src="https://static.vecteezy.com/system/resources/thumbnails/003/529/153/small/business-to-do-list-flat-icon-modern-style-free-vector.jpg"></h2>
+            <div class="row">
+                <input type="text" id="input-box" placeholder="Add your tasks">
+                <button onclick="AddTask()">Add</button>
+            </div>
+            <ul id="list-container">
+                <!-- <li class="checked">Tast 1</li>
+                <li>Tast 2</li>
+                <li>Tast 3</li> -->
+
+            </ul>
+        </div>
+        
+    </div>
+<script>
+    const inputBox = document.getElementById("input-box");
+    const listContainer = document.getElementById("list-container");
+
+    function AddTask() {
+        if (inputBox.value === '') { 
+            alert("Please write something to add the task");
+        } else {
+            let li = document.createElement("li");
+            li.textContent = inputBox.value; 
+            listContainer.appendChild(li);
+            inputBox.value = ''; 
+            let span = document.createElement("span");
+            span.innerHTML="\u00d7";
+            li.appendChild(span);
+            save();
+        }
+    }
+    listContainer.addEventListener("click", function(e){
+        if (e.target.tagName === "LI") {
+            e.target.classList.toggle("checked");
+            save();
+        }
+        else if (e.target.tagName === "SPAN") {
+            e.target.parentElement.remove();
+            save();
+        }
+    }, false);
+    function save(){
+        localStorage.setItem("data", listContainer.innerHTML);
+    }
+    function Show(){
+        listContainer.innerHTML=localStorage.getItem("data");
+    }
+    Show();
+</script>
+
+</body>
+
+</html>
